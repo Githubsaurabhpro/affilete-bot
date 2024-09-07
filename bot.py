@@ -1,39 +1,43 @@
-import uvloop
-import asyncio
 from pyrogram import Client, filters
+import logging
+import asyncio
 from decouple import config
+logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
+
 print("Starting...")
 
-uvloop.install()
-
-# Necessary credentials, fill before running the bot
 APP_ID = config("APP_ID", default=None, cast=int)
 API_HASH = config("API_HASH", default=None)
 SESSION = config("SESSION")
+FROM = [-1002278830292, -1001511276789]
+TO = [-1002336608535]
 
-# Add multiple channels by spacing. Example: FROM = "-10012345678 -10023456789 -10034567890"
-FROM_ = config("FROM_CHANNEL")  # channel ids from bot will forward messages
-TO_ = config("TO_CHANNEL")  # The channel ids im wich which userbot will forward messages
+try:
+    BotzHubUser = Client(name=SESSION, api_id=APP_ID, api_hash=API_HASH, session_string=SESSION)
+except Exception as ap:
+    print(f"ERROR - {ap}")
+    exit(1)
 
-FROM = [int(i) for i in FROM_.split()]
-TO = [int(i) for i in TO_.split()]
+async def start_bot():
+    await BotzHubUser.start()
+    user = await BotzHubUser.get_me()
+    print(f"Logged in as : {user.first_name}")
 
-async def main():
-    try:
-        Bot = Client("Forward_Bot", api_id=APP_ID, api_hash=API_HASH, session_string=SESSION)
-        await Bot.start()
-        print("Bot started.")
-        
-        @Bot.on_message(filters.incoming & filters.chat(FROM))
-        async def msg_sender(client, message):
-            for i in TO:
-                try:
-                    await message.forward(i)
-                except Exception as e:
-                    print(f"Error forwarding message: {e}")
-        
-        await asyncio.Event().wait()
-    except Exception as e:
-        print(f"ERROR in starting userbot - {e}")
+    await asyncio.Event().wait()
 
-asyncio.run(main())
+@BotzHubUser.on_message(filters.chat(FROM))
+async def sender_bH(client, message):
+    for i in TO:
+        try:
+            await client.copy_message(
+                chat_id=i,
+                from_chat_id=message.chat.id,
+                message_id=message.id,
+                caption=message.caption,
+                caption_entities=message.caption_entities,
+                reply_markup=message.reply_markup
+            )
+        except Exception as e:
+            print(e)
+
+BotzHubUser.run(start_bot())
