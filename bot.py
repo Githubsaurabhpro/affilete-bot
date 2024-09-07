@@ -1,19 +1,19 @@
 import uvloop
 import asyncio
 from pyrogram import Client, filters
-
+from decouple import config
 print("Starting...")
 
 uvloop.install()
 
 # Necessary credentials, fill before running the bot
-APP_ID =  # int add like 123345678
-API_HASH = ""
-SESSION = ""
+APP_ID = config("APP_ID", default=None, cast=int)
+API_HASH = config("API_HASH", default=None)
+SESSION = config("SESSION")
 
 # Add multiple channels by spacing. Example: FROM = "-10012345678 -10023456789 -10034567890"
-FROM = ""  # channel ids from bot will forward messages
-TO = ""  # The channel ids im wich which userbot will forward messages
+FROM = config("FROM_CHANNEL")  # channel ids from bot will forward messages
+TO = config("TO_CHANNEL")  # The channel ids im wich which userbot will forward messages
 
 FROM = [int(i) for i in FROM.split()]
 TO = [int(i) for i in TO.split()]
