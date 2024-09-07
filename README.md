@@ -1,4 +1,4 @@
-# Channel Auto-Post Bot
+# Auto-Post Script
 
 This makes a user send all messages from one/many chat(s) to another chat(s).
 
