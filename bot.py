@@ -12,11 +12,11 @@ API_HASH = config("API_HASH", default=None)
 SESSION = config("SESSION")
 
 # Add multiple channels by spacing. Example: FROM = "-10012345678 -10023456789 -10034567890"
-FROM = config("FROM_CHANNEL")  # channel ids from bot will forward messages
-TO = config("TO_CHANNEL")  # The channel ids im wich which userbot will forward messages
+FROM_ = config("FROM_CHANNEL")  # channel ids from bot will forward messages
+TO_ = config("TO_CHANNEL")  # The channel ids im wich which userbot will forward messages
 
-FROM = [int(i) for i in FROM.split()]
-TO = [int(i) for i in TO.split()]
+FROM = [int(i) for i in FROM_.split()]
+TO = [int(i) for i in TO_.split()]
 
 async def main():
     try:
