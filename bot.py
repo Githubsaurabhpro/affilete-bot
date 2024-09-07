@@ -1,10 +1,10 @@
-from pyrogram import Client, filters
-import logging
+import uvloop
 import asyncio
+from pyrogram import Client, filters
 from decouple import config
-logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
-
 print("Starting...")
+
+uvloop.install()
 
 APP_ID = config("APP_ID", default=None, cast=int)
 API_HASH = config("API_HASH", default=None)
