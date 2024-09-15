@@ -14,7 +14,7 @@ APP_ID = config("APP_ID", default=None, cast=int)
 API_HASH = config("API_HASH", default=None)
 SESSION = config("SESSION")
 
-FROM = [-1001389782464]
+FROM = [-1001707571730, -1001389782464]
 
 TO_BOT_USERNAME = "@ExtraPeBot" 
 
